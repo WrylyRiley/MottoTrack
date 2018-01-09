@@ -2,53 +2,47 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+import HabitController from './Controllers/HabitController'
 
 const app = express()
 
 // Shorter method of initializing a connection to a database
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/posts', {useMongoClient: true})
+mongoose.connect('mongodb://localhost:27017/posts', { useMongoClient: true })
+mongoose.Promise = Promise
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error'))
 db.once('open', function(callback) {
   console.log('Connection Succeeded')
 })
 
-var Post = require('../models/post')
+var Post = require('../db/models/post')
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
 // Route for /posts, delivered through Api.js, linked with PostService.js
-app.get('/posts', (req, res) => {
-  Post.find({}, 'title description', (err, posts) => {
-    if (err) { console.error(err)}
-    res.send ({
-      posts: posts
-    })
-  }).sort({_id:-1})
-})
+
+app.route('/').get()
+
 
 app.post('/posts', (req, res) => {
-  var db = req.db
-  var title = req.body.title
-  var description = req.body.description
-  var newPost = new Post({
+  var db = req.db;
+  var title = req.body.title;
+  var description = req.body.description;
+  var new_post = new Post({
     title: title,
     description: description
   })
 
-  newPost.save(err => {
-    if (err) {
-      console.log(err)
-    }
+  Post.create(new_post).then(
     res.send({
       success: true,
-      message: 'Post saved successfully!'
+      message: 'Post saved successfully'
     })
-  })
+  ).catch (err =>
+  console.error(err))
 })
 
-app.post 
 app.listen(process.env.PORT || 8081)

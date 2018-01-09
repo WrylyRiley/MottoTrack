@@ -1,17 +1,18 @@
+
 <template>
   <div class="posts">
-    <h1>Add post</h1>
-    <div class="form">
-      <div>
-        <input type="text" name="title" placeholder="TITLE" v-model="title">
+    <h1>Add Post</h1>
+      <div class="form">
+        <div>
+          <input type="text" name="title" placeholder="TITLE" v-model="title">
+        </div>
+        <div>
+          <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
+        </div>
+        <div>
+          <button class="app_post_btn" @click="addPost">Add</button>
+        </div>
       </div>
-      <div>
-        <textarea cols="15" rows="15" placeholder="DESCRIPTION" v-model="description"></textarea>
-      </div>
-      <div>
-        <button class="app_post_btn" @click="addPost">Add</button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -27,7 +28,7 @@ export default {
   },
   methods: {
     async addPost () {
-      await PostService.addPost()({
+      await PostService.addPost({
         title: this.title,
         description: this.description
       })
