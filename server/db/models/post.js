@@ -1,7 +1,7 @@
-var mongoose = require('mongoose')
+var mongoose = require('../connection')
 
 var PostSchema = new mongoose.Schema({
-  totle: String,
+  title: String,
   description: String
 })
 
