@@ -7,7 +7,7 @@ const app = express()
 
 // Shorter method of initializing a connection to a database
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:12491/posts')
+mongoose.connect('mongodb://localhost:27017/posts', {useMongoClient: true})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error'))
 db.once('open', function(callback) {
