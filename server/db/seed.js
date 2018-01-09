@@ -6,7 +6,10 @@ Post.remove({})
     .then(_ => {
         return Post.collection.insert(seedData)
     })
-    .then(_ => {
+    .then(Post.find({}).then(
+        recipes => {console.log(recipes)}
+    ))
+    .then(_ => { 
         process.exit()
     })
 

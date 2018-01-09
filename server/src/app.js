@@ -15,8 +15,9 @@ app.use(cors())
 
 // Route for /posts, delivered through Api.js, linked with PostService.js
 
-Router.route('/')
+Router.route('/#/posts')
   .get(HabitController.postIndex)
   .post(HabitController.addPost)
 
-app.listen(process.env.PORT || 8081)
+
+app.listen(8081, _ => { console.log(`Listening on Port 8081`)})
