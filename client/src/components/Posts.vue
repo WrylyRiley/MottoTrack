@@ -1,4 +1,3 @@
-
 <template>
   <div class="posts">
     <h1>Posts</h1>
@@ -30,8 +29,7 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostService'
-
+import PostService from '@/services/PostService'
 export default {
   name: 'posts',
   data () {
@@ -44,21 +42,19 @@ export default {
   },
   methods: {
     async getPosts () {
-      const response = await PostsService.fetchPosts()
-      this.posts = response.data
+      const response = await PostService.fetchPosts()
+      this.posts = response.data.posts
     }
   }
 }
 </script>
-
 <style type="text/css">
 .table-wrap {
   width: 60%;
   margin: 0 auto;
   text-align: center;
 }
-table th,
-table tr {
+table th, table tr {
   text-align: left;
 }
 table thead {

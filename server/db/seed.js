@@ -1,17 +1,15 @@
-const Post = require("../db/models/post"),
-    seedData = require("./seeds.json")
-    // seedHabits = require("./seedHabits.json")
+const Post = require("./models/post")
+const seedData = require('./seeds.json')
+// const seedHabits = require("./seedHabits.json")
 
 Post.remove({})
     .then(_ => {
         return Post.collection.insert(seedData)
     })
-    .then(Post.find({}).then(
-        recipes => {console.log(recipes)}
-    ))
     .then(_ => { 
         process.exit()
     })
+    
 
 // const Habits = require("../db/models/HabitSchema"),
 // seedData = require("./seeds.json")

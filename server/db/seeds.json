@@ -1,14 +1,14 @@
 [
   {
-    "name": "Google",
-    "Description": "Do no evil"
+    "title": "Google",
+    "description": "Do no evil"
   },
   {
-    "name": "UPS",
-    "Description": "What can brown do for you?"
+    "title": "UPS",
+    "description": "What can brown do for you?"
   },
   {
-    "name": "Nike",
-    "Description": "Just do it"
+    "title": "Nike",
+    "description": "Just do it"
   }
 ]
