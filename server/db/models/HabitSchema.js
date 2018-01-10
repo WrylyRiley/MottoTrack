@@ -1,5 +1,10 @@
 const mongoose = require('../connection')
 
+function dateMaker() {
+  return 
+  
+}
+
 const HabitSchema = new mongoose.Schema({
   updated: {type: Date, default: Date.now}
   name: String,
@@ -7,7 +12,7 @@ const HabitSchema = new mongoose.Schema({
   color: String,
   startDate: Date,
   endDate: Date,
-  daysCompleted: [Date]
+  daysCompleted: {type: {}, set: }
 })
 
 module.exports = mongoose.model('Habit', HabitSchema)

@@ -17,34 +17,38 @@ app.disable('etag')
 // Route for /posts, delivered through Api.js, linked with PostService.js
 
 app.get ('/', (req, res) => {
-  res.send({message: "hello world!"})
+  res.send({message: "hello from the server!"})
 })
 
-app.get('/posts', (req, res) => {
-  Posts.find({})
-    .then(posts => res.send({ posts: posts }))
-    .catch(err => console.log(err))
+app.get('/habits', (req, res) => {
+  
 })
 
-app.post('/posts', (req, res) => {
-  var db = req.db
-  var title = req.body.title
-  var description = req.body.description
-  var new_post = new Posts({
-    title: title,
-    description: description
-  })
+// app.get('/posts', (req, res) => {
+//   Posts.find({})
+//     .then(posts => res.send({ posts: posts }))
+//     .catch(err => console.log(err))
+// })
 
-  new_post.save(error => {
-    if (error) {
-      console.log(error)
-    }
-    res.send({
-      success: true,
-      message: 'Post saved successfully'
-    })
-  })
-})
+// app.post('/posts', (req, res) => {
+//   var db = req.db
+//   var title = req.body.title
+//   var description = req.body.description
+//   var new_post = new Posts({
+//     title: title,
+//     description: description
+//   })
+
+//   new_post.save(error => {
+//     if (error) {
+//       console.log(error)
+//     }
+//     res.send({
+//       success: true,
+//       message: 'Post saved successfully'
+//     })
+//   })
+// })
 
 app.listen(process.env.PORT || 8081, _ => {
   console.log(`Listening on Port 8081`)
