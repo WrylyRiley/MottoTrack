@@ -15,7 +15,7 @@
           </v-card-title>
           <v-data-table :headers="headers" :items="items" :search="search" hide-actions item-key="title">
             <template slot="items" slot-scope="props">
-              <tr @click="props.expanded = !props.expanded">
+              <tr @click="props.expanded = !props.expanded; genModel(props.item)">
                 <td class="text-xs-right">{{ props.item.title }}</td>
                 <td class="text-xs-right">{{ props.item.motto }}</td>
                 <td class="text-xs-right">{{ props.item.description }}</td>
@@ -26,11 +26,11 @@
               <v-card flat class="mx-2 height-2">
                 <!-- Form goes here, reload on edit -->
                 <v-card-text>Peek-a-boo!</v-card-text>
-                <v-form v-model="valid" ref="form" lazy-validation=true>
-                  <v-text-field label="ID" v-model="props.item._id" readonly></v-text-field>
-                  <v-text-field label="Title" v-model="props.item.title" :rules="titleRules" :counter="35" required></v-text-field>
-                  <v-text-field label="Motto" v-model="props.item.motto" :rules="mottoRules" :counter="35" required></v-text-field>
-                  <v-text-field label="Description" v-model="props. item.description" :rules="descRules" :counter="100" required></v-text-field>
+                <v-form v-model="valid" ref="form" lazy-validation>
+                  <v-text-field label="ID" v-model="newModel._id" readonly ></v-text-field>
+                  <v-text-field label="Title" v-model="newModel.title" required></v-text-field>
+                  <v-text-field label="Motto" v-model="newModel.motto" required></v-text-field>
+                  <v-text-field label="Description" v-model="newModel.description" required></v-text-field>
                   <v-btn @click="submit" :disabled="!valid">
                     submit
                   </v-btn>
@@ -94,12 +94,7 @@ export default {
       ],
       items: [],
       valid: true,
-      newModel: {
-        id: '',
-        title: '',
-        motto: '',
-        description: ''
-      }
+      newModel: []
     }
   },
   mounted() {
@@ -110,20 +105,33 @@ export default {
       const response = await PostService.fetchPosts()
       this.items = response.data
     },
-    // Vurtify Template
+    loadVars(itemToLoad) {
+      this.newModel.id = itemToLoad._id
+      console.log(itemToLoad._id)
+      this.newModel.title = itemToLoad.title
+      console.log(itemToLoad.title)
+      this.newModel.motto = itemToLoad.motto
+      console.log(itemToLoad.motto)
+      this.newModel.description = itemToLoad.description
+      console.log(itemToLoad.description)
+    },
+    // Vuetify Template
     submit() {
-      if (this.$refs.form.validate()) {
-        PostService.changePost({
-          id: this.id,
-          title: this.title,
-          motto: this.motto,
-          description: this.description
-        })
-      }
+      PostService.changePost({
+        id: this.newModel.id,
+        title: this.newModel.title,
+        motto: this.newModel.motto,
+        description: this.newModel.description
+      })
     },
     // Vuetify Template
     clear() {
-      this.$refs.form.reset()
+      this.$refs.form.clear()
+    },
+    genModel(model) {
+      // This, instead of deep cloning. Reference objects are linked!  Remember Intro Java!
+      this.newModel = JSON.parse(JSON.stringify(model))
+      console.log(this.newModel)
     }
   }
 }
