@@ -21,7 +21,7 @@
     </v-toolbar>
     <v-content>
       <v-container grid-list-md>
-        <v-layout row align-center v-for="habit in habits" :key="post">
+        <v-layout row align-center v-for="habit in habits" :key="habit">
           <v-flex xs3>
             <v-card dark color="primary">
               <v-card-text class="px-3 ">{{habit.name}}</v-card-text>

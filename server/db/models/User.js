@@ -1,8 +1,6 @@
 const mongoose = require('../connection')
 
-const Habit = require('./HabitSchema')
-const QHabit = require('./QHabitSchema')
-const Prefs = require('./PrefsSchema')
+const Tab = require('./TabSchema')
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -10,11 +8,7 @@ const UserSchema = new mongoose.Schema({
   userID: String,
   passHash: String,
   habits {
-    daily: Habit,
-    weekly: Habit,
-    monthly: Habit,
-    sporadic: Habit,
-    quantified: QHabit
+    favoriteTabs: [Tab]
   },
   prefs: Prefs
 })
