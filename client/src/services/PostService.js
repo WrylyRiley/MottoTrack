@@ -1,10 +1,10 @@
 import Api from '@/services/Api'
 
 export default {
-  fetchPosts () {
-    return Api().get('posts')
+  fetchTabs () {
+    return Api().get('tabs')
   },
-  addPost (params) {
-    return Api().post('posts', params)
+  addTab (params) {
+    return Api().post('tabs', params)
   }
 }

@@ -2,6 +2,7 @@
 
 <template>
   <v-app>
+  
     <v-navigation-drawer fixed :clipped="clipped" v-model="drawer" app>
       <v-list>
         <v-list-tile value="true" v-for="(item, i) in items" :key="i">

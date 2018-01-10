@@ -1,7 +1,7 @@
 const mongoose = require('../connection')
 
 const TabSchema = new mongoose.Schema({
-  title: String,,
+  title: String,
   artist: String,
   genre: String,
   album: String,

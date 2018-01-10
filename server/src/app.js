@@ -6,7 +6,6 @@ const morgan = require('morgan')
 const app = express()
 
 var Tabs = require('../db/models/TabSchema')
-var User = require('../db/models/UserSchema')
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
@@ -58,7 +57,7 @@ app.get('/tabs/:id', (req, res) => {
     if (error) {
       console.log(error)
     }
-    res.send(tab)
+    res.send(tablature)
   })
 })
 

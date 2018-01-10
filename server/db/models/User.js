@@ -7,8 +7,6 @@ const UserSchema = new mongoose.Schema({
   isAdmin: Boolean,
   userID: String,
   passHash: String,
-  habits {
-    favoriteTabs: [Tab]
-  },
+  favoriteTabs: [Tab],
   prefs: Prefs
 })
