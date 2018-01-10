@@ -1,14 +1,17 @@
 [
   {
     "title": "Google",
-    "description": "Do no evil"
+    "motto": "Do no evil",
+    "description": "Advertising Company"
   },
   {
     "title": "UPS",
-    "description": "What can brown do for you?"
+    "motto": "What can brown do for you?",
+    "description": "parcel service"
   },
   {
     "title": "Nike",
-    "description": "Just do it"
+    "motto": "Just do it.",
+    "description": "Shoe Company"
   }
 ]

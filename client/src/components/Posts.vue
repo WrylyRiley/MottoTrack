@@ -1,113 +1,74 @@
 <template>
-<div class="posts">
-  <v-content>
-    <!-- Template with search from Vuetify docs -->
-    <v-card>
-      <v-card-title>
-        Nutrition
-        <v-spacer></v-spacer>
-        <v-text-field
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-          v-model="search"
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table
-        v-bind:headers="headers"
-        v-bind:items="posts"
-        v-bind:search="search"
-      >
-      <!-- binds template to posts array -->
-      <template slot="posts" slot-scope="props">
-        <!-- Table entry -->
-        <td class="text-xs-right">
-          <!-- Title edit dialog embedded in table entry -->
-          <v-edit-dialog
-            @open="tmp = props.post.title"
-            @save="props.post.title = tmp || props.post.title"
-            large
-            lazy
-          >
-            <div>{{ props.post.title }}</div>
-            <div slot="input" class="mt-3 title">Update Title</div>
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-model="tmp"
-              single-line
-              counter
-              autofocus
-              :rules="[max35chars]"
-            ></v-text-field>
-          </v-edit-dialog>
-        </td>
-        <!-- Motto edit dialog embedded in table entry -->
-          <td class="text-xs-right">
-          <v-edit-dialog
-            @open="tmp = props.post.motto"
-            @save="props.post.motto = tmp || props.post.motto"
-            large
-            lazy
-          >
-            <div>{{ props.post.motto }}</div>
-            <div slot="input" class="mt-3 title">Update Motto</div>
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-model="tmp"
-              single-line
-              counter
-              autofocus
-              :rules="[max35chars]"
-            ></v-text-field>
-          </v-edit-dialog>
-        </td>
-      <td class="text-xs-right">
-          <v-edit-dialog
-            @open="tmp = props.post.description"
-            @save="props.post.description = tmp || props.post.description"
-            large
-            lazy
-          >
-            <div>{{ props.post.description }}</div>
-            <div slot="input" class="mt-3 title">Update Description</div>
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-model="tmp"
-              multi-line
-              counter
-              autofocus
-              :rules="[max100chars]"
-            ></v-text-field>
-          </v-edit-dialog>
-        </td>
-      </template>
-      <template slot="no-data">
-        <v-alert :value="true" color="error" icon="warning">
-          Sorry, nothing to display here :(
-        </v-alert>
-      </template>
-      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
-        From {{ pageStart }} to {{ pageStop }}
-      </template>
-    </v-data-table>
-  </v-card>
-  </v-content>
-</div>
+  <v-app>
+    <div class="posts">
+      <v-toolbar color="indigo" dark fixed app>
+        <v-icon>home</v-icon>
+        <v-toolbar-title>Motto Tracker</v-toolbar-title>
+      </v-toolbar>
+      <v-content class="mx-5">
+        <!-- Template with search from Vuetify docs -->
+        <v-card>
+          <v-card-title>
+            COmpanies and Mottos
+            <v-spacer></v-spacer>
+            <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headers" :items="items" :search="search" hide-actions item-key="title">
+            <template slot="items" slot-scope="props">
+              <tr @click="props.expanded = !props.expanded">
+                <td class="text-xs-right">{{ props.item.title }}</td>
+                <td class="text-xs-right">{{ props.item.motto }}</td>
+                <td class="text-xs-right">{{ props.item.description }}</td>
+                <td hidden class="text-xs-right">{{ props.item._id }}</td>
+              </tr>
+            </template>
+            <template slot="expand" slot-scope="props">
+              <v-card flat class="mx-2 height-2">
+                <!-- Form goes here, reload on edit -->
+                <v-card-text>Peek-a-boo!</v-card-text>
+                <v-form v-model="valid" ref="form" lazy-validation=true>
+                  <v-text-field label="ID" v-model="props.item._id" readonly></v-text-field>
+                  <v-text-field label="Title" v-model="props.item.title" :rules="titleRules" :counter="35" required></v-text-field>
+                  <v-text-field label="Motto" v-model="props.item.motto" :rules="mottoRules" :counter="35" required></v-text-field>
+                  <v-text-field label="Description" v-model="props. item.description" :rules="descRules" :counter="100" required></v-text-field>
+                  <v-btn @click="submit" :disabled="!valid">
+                    submit
+                  </v-btn>
+                  <v-btn @click="clear">clear</v-btn>
+                </v-form>
+              </v-card>
+            </template>
+            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+              From {{ pageStart }} to {{ pageStop }}
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-content>
+    </div>
+  </v-app>
 </template>
 
 <script>
 import PostService from '@/services/PostService'
 export default {
   name: 'posts',
+  // validates form
+  valid: true,
   data() {
     // Part of template used from vuetify docs
     return {
-      max35chars: v => v.length <= 35 || 'Input too long!',
-      max100chars: v => v.length <= 100 || 'Input too long!',
+      titleRules: [
+        v => !!v || 'Name is required',
+        v => (v && v <= 35) || 'Name must be less than 35 characters'
+      ],
+      mottoRules: [
+        v => !!v || 'Motto is required',
+        v => (v && v <= 35) || 'Motto must be less than 35 characters'
+      ],
+      descRules: [
+        v => !!v || 'Description is required',
+        v => (v && v <= 100) || 'Description must be less than 100 characters'
+      ],
       tmp: '',
       search: '',
       pagination: {},
@@ -131,16 +92,38 @@ export default {
           value: 'description'
         }
       ],
-      posts: []
+      items: [],
+      valid: true,
+      newModel: {
+        id: '',
+        title: '',
+        motto: '',
+        description: ''
+      }
     }
   },
-  mounted () {
+  mounted() {
     this.getPosts()
   },
   methods: {
-    async getPosts () {
+    async getPosts() {
       const response = await PostService.fetchPosts()
-      this.posts = response.data
+      this.items = response.data
+    },
+    // Vurtify Template
+    submit() {
+      if (this.$refs.form.validate()) {
+        PostService.changePost({
+          id: this.id,
+          title: this.title,
+          motto: this.motto,
+          description: this.description
+        })
+      }
+    },
+    // Vuetify Template
+    clear() {
+      this.$refs.form.reset()
     }
   }
 }

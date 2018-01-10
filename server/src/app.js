@@ -18,32 +18,23 @@ app.get('/', (req, res) => {
   res.send({ message: 'hello from the server!' })
 })
 
+app.get('/posts', (req, res) => {
+  Posts.find({})
+        .then(posts => {
+            res.send(posts)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
+
 // make this a modal with vuetify
 app.post('/posts', (req, res) => {
-  var title = req.body.title
-  var motto = req.body.motto
-  var description = req.body.description
-
-  var newPost = new Posts({
-    title: title,
-    motto: motto,
-    description: description
-  })
-
-  newPost.save(error => {
-    if (error) {
-      console.log(error)
-    }
-
-    res.send({
-      success: true,
-      message: 'Successfully added!'
-    })
-  })
+  Posts.create(req.body).then(res.send(req.body))
 })
 
 app.get('/posts/:id', (req, res) => {
-  Tabs.findById(req.params.id, (error, post) => {
+  Posts.findById(req.params.id, (error, post) => {
     if (error) {
       console.log(error)
     }
@@ -52,7 +43,7 @@ app.get('/posts/:id', (req, res) => {
 })
 
 app.put('/posts/:id', (req, res) => {
-  Tabs.findById(req.params.id, (error, post) => {
+  Posts.findById(req.params.id, (error, post) => {
     if (error) {
       console.log(error)
     }
@@ -71,11 +62,11 @@ app.put('/posts/:id', (req, res) => {
 })
 
 app.delete('/posts/:id', (req, res) => {
-  Tabs.findById(req.params.id, (error, post) => {
+  Posts.findOneAndRemove({"_id": req.params.id}, (error, post) => {
     if (error) {
       console.log(error)
     }
-  }).remove()
+  }).then(res.send({msg: "success"}))
 })
 
 app.listen(process.env.PORT || 8081, _ => {
