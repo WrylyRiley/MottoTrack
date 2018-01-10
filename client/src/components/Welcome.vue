@@ -1,17 +1,21 @@
 <template>
-  <v-app>
-    <router-view>
-      <v-content>
+  <v-app id="inspire">
+    <v-content>
         <v-container fluid>
-          <v-card color="primary">
-            <img src="@/assets/logo.png" alt="VuetifyLogo">
-          </v-card>
-          <v-card color="secondary">
-            Welcome to the Motto Organaizer
-          </v-card>
+            <v-layout column wrap>
+              <v-flex md12>
+                <v-card color="primary" light>
+                  <img src="@/assets/logo.png" alt="VuetifyLogo">
+                </v-card>
+              </v-flex>
+              <v-flex md12>
+                <v-card color="secondary" light>
+                  <router-link to="posts">View all of the posts!</router-link>
+                </v-card>
+              </v-flex>
+          </v-layout>
         </v-container>
-      </v-content>
-    </router-view>
+    </v-content>
   </v-app>
 </template>
 
