@@ -1,9 +1,13 @@
 <template>
   <v-app>
     <div class="posts">
-      <v-toolbar color="indigo" dark fixed app>
-        <v-icon>home</v-icon>
-        <v-toolbar-title>Motto Tracker</v-toolbar-title>
+      <v-toolbar color="deep-orange darken-1" dark fixed app>
+        <v-btn small to="/" light fab>
+          <v-icon>home</v-icon>
+        </v-btn>
+        <v-toolbar-title>
+          <h3>MottoTracker</h3>
+        </v-toolbar-title>
       </v-toolbar>
       <v-content class="mx-5">
         <!-- Template with search from Vuetify docs -->
@@ -29,10 +33,10 @@
                   <v-text-field label="Title" v-model="inPlaceModel.title" required></v-text-field>
                   <v-text-field label="Motto" v-model="inPlaceModel.motto" required></v-text-field>
                   <v-text-field label="Description" v-model="inPlaceModel.description" required></v-text-field>
-                  <v-btn @click="props.expanded = !props.expanded; update()" :disabled="!valid">
+                  <v-btn color="info" @click="props.expanded = !props.expanded; update()" :disabled="!valid">
                     submit
                   </v-btn>
-                  <v-btn @click="props.expanded = !props.expanded">close</v-btn>
+                  <v-btn color="info" @click="props.expanded = !props.expanded">close</v-btn>
                   <v-btn @click="props.expanded = !props.expanded; update(true)" color="error">delete</v-btn>
                 </v-form>
               </v-card>
@@ -42,11 +46,11 @@
             </template>
           </v-data-table>
         </v-card>
-<!-- New Motto Template from Vuetify Docs -->
-          <template>
+        <!-- New Motto Template from Vuetify Docs -->
+        <template>
           <v-layout row justify-center>
             <v-dialog v-model="dialog" persistent max-width="500px">
-              <v-btn color="primary" dark slot="activator">Add a motto!</v-btn>
+              <v-btn color="deep-orange darken-1" dark slot="activator">Add a motto!</v-btn>
               <v-card>
                 <v-card-title>
                   <span class="headline">Add a Motto</span>
@@ -58,9 +62,7 @@
                         <v-text-field v-model="newModel.title" label="Company Name" required></v-text-field>
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field v-model="newModel.motto" label="Motto"
-                          required
-                        ></v-text-field>
+                        <v-text-field v-model="newModel.motto" label="Motto" required></v-text-field>
                       </v-flex>
                       <v-flex xs12>
                         <v-text-field v-model="newModel.description" label="Description" required></v-text-field>
@@ -70,8 +72,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" @click.native="dialog = false">Close</v-btn>
-                  <v-btn color="primary" @click.native="newPost(); dialog = false">Save</v-btn>
+                  <v-btn color="info" @click.native="dialog = false">Close</v-btn>
+                  <v-btn color="info" @click.native="newPost(); dialog = false">Save</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -83,88 +85,88 @@
 </template>
 
 <script>
-import PostService from '@/services/PostService'
-export default {
-  name: 'posts',
-  // validates form
-  valid: true,
-  data() {
-    // Part of template used from vuetify docs
-    return {
-      dialog: false,
-      titleRules: [
-        v => !!v || 'Name is required',
-        v => (v && v <= 35) || 'Name must be less than 35 characters'
-      ],
-      mottoRules: [
-        v => !!v || 'Motto is required',
-        v => (v && v <= 35) || 'Motto must be less than 35 characters'
-      ],
-      descRules: [
-        v => !!v || 'Description is required',
-        v => (v && v <= 100) || 'Description must be less than 100 characters'
-      ],
-      tmp: '',
-      search: '',
-      pagination: {},
-      headers: [
-        {
-          text: 'Title',
-          align: 'left',
-          sortable: true,
-          value: 'title'
-        },
-        {
-          text: 'Motto',
-          align: 'left',
-          sortable: true,
-          value: 'motto'
-        },
-        {
-          text: 'Description',
-          align: 'left',
-          sortable: false,
-          value: 'description'
+  import PostService from '@/services/PostService'
+  export default {
+    name: 'posts',
+    // validates form
+    valid: true,
+    data() {
+      // Part of template used from vuetify docs
+      return {
+        dialog: false,
+        titleRules: [
+          v => !!v || 'Name is required',
+          v => (v && v <= 35) || 'Name must be less than 35 characters'
+        ],
+        mottoRules: [
+          v => !!v || 'Motto is required',
+          v => (v && v <= 35) || 'Motto must be less than 35 characters'
+        ],
+        descRules: [
+          v => !!v || 'Description is required',
+          v => (v && v <= 100) || 'Description must be less than 100 characters'
+        ],
+        tmp: '',
+        search: '',
+        pagination: {},
+        headers: [
+          {
+            text: 'Company Name',
+            align: 'left',
+            sortable: true,
+            value: 'title'
+          },
+          {
+            text: 'Motto',
+            align: 'left',
+            sortable: true,
+            value: 'motto'
+          },
+          {
+            text: 'Description',
+            align: 'left',
+            sortable: true,
+            value: 'description'
+          }
+        ],
+        items: [],
+        valid: true,
+        inPlaceModel: '',
+        newModel: {
+          title: '',
+          motto: '',
+          description: ''
         }
-      ],
-      items: [],
-      valid: true,
-      inPlaceModel: '',
-      newModel: {
-        title: '',
-        motto: '',
-        description: ''
+      }
+    },
+    mounted() {
+      this.getPosts()
+    },
+    methods: {
+      async getPosts() {
+        const response = await PostService.fetchPosts()
+        this.items = response.data
+      },
+      // Vuetify Template
+      async update(deleteFlag = false) {
+        console.log('inPlaceModel\n\n\n' + JSON.stringify(this.inPlaceModel))
+        var response = await PostService.changePost(this.inPlaceModel, deleteFlag)
+        console.log(response)
+        this.getPosts()
+      },
+      async newPost() {
+        this.genModel(this.newModel)
+        var response = await PostService.addPost(this.newModel)
+        console.log(response)
+        this.getPosts()
+      },
+      genIPModel(model) {
+        // This, instead of deep cloning. Reference objects are linked!  Remember Intro Java!
+        this.inPlaceModel = JSON.parse(JSON.stringify(model))
+      },
+      genModel(model) {
+        this.newModel = JSON.parse(JSON.stringify(model))
       }
     }
-  },
-  mounted() {
-    this.getPosts()
-  },
-  methods: {
-    async getPosts() {
-      const response = await PostService.fetchPosts()
-      this.items = response.data
-    },
-    // Vuetify Template
-    async update(deleteFlag = false) {
-      console.log('inPlaceModel\n\n\n' + JSON.stringify(this.inPlaceModel))
-      var response = await PostService.changePost(this.inPlaceModel, deleteFlag)
-      console.log(response)
-      this.getPosts()
-    },
-    async newPost() {
-      this.genModel(this.newModel)
-      var response = await PostService.addPost(this.newModel)
-      console.log(response)
-      this.getPosts()
-    },
-    genIPModel(model) {
-      // This, instead of deep cloning. Reference objects are linked!  Remember Intro Java!
-      this.inPlaceModel = JSON.parse(JSON.stringify(model))
-    },
-    genModel(model) {
-      this.newModel = JSON.parse(JSON.stringify(model))
-    }
   }
-}
 </script>
