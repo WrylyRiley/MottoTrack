@@ -69,7 +69,11 @@ app.delete('/posts/:id', (req, res) => {
   }).then(res.send({ msg: 'Success' }))
 })
 
-app.set ('port', process.env.PORT || 8080)
-app.listen('port', _ => {
-  console.log(`Listening on Port ${app.get('port')}`)
-})
+// Manually listen on 8081 for local development
+app.listen(8081, _ => {console.log("Listening on port 8081")})
+
+// Listen on PORT and fall back to 8081 for production
+// app.set ('port', process.env.PORT || 8081)
+// app.listen('port', _ => {
+//   console.log(`Listening on Port ${app.get('port')}`)
+// })
