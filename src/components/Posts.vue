@@ -157,6 +157,11 @@
       async newPost() {
         this.genModel(this.newModel)
         var response = await PostService.addPost(this.newModel)
+        this.newModel = {
+          title: '',
+          motto: '',
+          description: ''
+        }
         console.log(response)
         this.getPosts()
       },
