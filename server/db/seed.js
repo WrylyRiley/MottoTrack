@@ -8,3 +8,4 @@ Post.remove({})
     .then(_ => { 
         process.exit()
     })
+ 

@@ -9,7 +9,7 @@
         <!-- Template with search from Vuetify docs -->
         <v-card>
           <v-card-title>
-            COmpanies and Mottos
+            <h3>Companies and Mottos</h3>
             <v-spacer></v-spacer>
             <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
           </v-card-title>
@@ -25,16 +25,14 @@
             <template slot="expand" slot-scope="props">
               <v-card flat class="mx-2 height-2">
                 <!-- Form goes here, reload on edit -->
-                <v-card-text>Peek-a-boo!</v-card-text>
                 <v-form v-model="valid" ref="form" lazy-validation>
-                  <v-text-field label="ID" v-model="newModel._id" readonly ></v-text-field>
-                  <v-text-field label="Title" v-model="newModel.title" required></v-text-field>
-                  <v-text-field label="Motto" v-model="newModel.motto" required></v-text-field>
-                  <v-text-field label="Description" v-model="newModel.description" required></v-text-field>
-                  <v-btn @click="submit" :disabled="!valid">
+                  <v-text-field label="Title" v-model="inPlaceModel.title" required></v-text-field>
+                  <v-text-field label="Motto" v-model="inPlaceModel.motto" required></v-text-field>
+                  <v-text-field label="Description" v-model="inPlaceModel.description" required></v-text-field>
+                  <v-btn @click="props.expanded = !props.expanded; update()" :disabled="!valid">
                     submit
                   </v-btn>
-                  <v-btn @click="clear">clear</v-btn>
+                  <v-btn @click="props.expanded = !props.expanded">close</v-btn>
                 </v-form>
               </v-card>
             </template>
@@ -43,6 +41,41 @@
             </template>
           </v-data-table>
         </v-card>
+<!-- New Motto Template from Vuetify Docs -->
+          <template>
+          <v-layout row justify-center>
+            <v-dialog v-model="dialog" persistent max-width="500px">
+              <v-btn color="primary" dark slot="activator">Add a motto!</v-btn>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Add a Motto</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12>
+                        <v-text-field v-model="newModel.title" label="Company Name" required></v-text-field>
+                      </v-flex>
+                      <v-flex xs12>
+                        <v-text-field v-model="newModel.motto" label="Motto"
+                          required
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12>
+                        <v-text-field v-model="newModel.description" label="Description" required></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" @click.native="dialog = false">Close</v-btn>
+                  <v-btn color="primary" @click.native="newPost(); dialog = false">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-layout>
+        </template>
       </v-content>
     </div>
   </v-app>
@@ -57,6 +90,7 @@ export default {
   data() {
     // Part of template used from vuetify docs
     return {
+      dialog: false,
       titleRules: [
         v => !!v || 'Name is required',
         v => (v && v <= 35) || 'Name must be less than 35 characters'
@@ -94,49 +128,44 @@ export default {
       ],
       items: [],
       valid: true,
-      newModel: []
+      inPlaceModel: [],
+      newModel: [],
+      newTitle: '',
+      newMotto: '',
+      newDescription: ''
     }
   },
   mounted() {
     this.getPosts()
+  },
+  watch: {
+    newModel: function(newVal) {
+      console.log(newVal)
+    }
   },
   methods: {
     async getPosts() {
       const response = await PostService.fetchPosts()
       this.items = response.data
     },
-    loadVars(itemToLoad) {
-      this.newModel.id = itemToLoad._id
-      console.log(itemToLoad._id)
-      this.newModel.title = itemToLoad.title
-      console.log(itemToLoad.title)
-      this.newModel.motto = itemToLoad.motto
-      console.log(itemToLoad.motto)
-      this.newModel.description = itemToLoad.description
-      console.log(itemToLoad.description)
-    },
     // Vuetify Template
-    submit() {
-      PostService.changePost({
-        id: this.newModel.id,
-        title: this.newModel.title,
-        motto: this.newModel.motto,
-        description: this.newModel.description
-      })
+    async update() {
+      var response = await PostService.changePost(this.inPlaceModel)
+      console.log(response)
+      this.getPosts()
     },
-    // Vuetify Template
-    clear() {
-      this.$refs.form.clear()
+    async newPost() {
+      // console.log("inPlaceModel" + this.inPlaceModel)
+      // console.log("newModel" + this.newModel)
+      var response = await PostService.addPost(this.newModel)
+      console.log(response)
+      this.getPosts()
     },
     genModel(model) {
       // This, instead of deep cloning. Reference objects are linked!  Remember Intro Java!
-      this.newModel = JSON.parse(JSON.stringify(model))
-      console.log(this.newModel)
+      this.inPlaceModel = JSON.parse(JSON.stringify(model))
+      console.log(this.inPlaceModel)
     }
   }
 }
 </script>
-
-<style>
-
-</style>

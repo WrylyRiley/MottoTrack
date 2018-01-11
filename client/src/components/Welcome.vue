@@ -14,7 +14,7 @@
           </v-flex>
           <v-flex md12>
             <v-card color="secondary" dark>
-              <router-link to="posts">View all of the posts!</router-link>
+              <router-link to="posts"><h1>View all of the posts!</h1></router-link>
             </v-card>
           </v-flex>
         </v-layout>
