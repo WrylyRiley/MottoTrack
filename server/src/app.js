@@ -69,6 +69,7 @@ app.delete('/posts/:id', (req, res) => {
   }).then(res.send({ msg: 'Success' }))
 })
 
-app.listen(process.env.PORT || 8081, _ => {
-  console.log(`Listening on Port 8081`)
+app.set ('port', process.env.PORT || 8080)
+app.listen('port', _ => {
+  console.log(`Listening on Port ${app.get('port')}`)
 })
