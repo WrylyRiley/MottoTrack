@@ -15,7 +15,7 @@
           </v-card-title>
           <v-data-table :headers="headers" :items="items" :search="search" hide-actions item-key="title">
             <template slot="items" slot-scope="props">
-              <tr @click="props.expanded = !props.expanded; genModel(props.item)">
+              <tr @click="props.expanded = !props.expanded; genIPModel(props.item)">
                 <td class="text-xs-right">{{ props.item.title }}</td>
                 <td class="text-xs-right">{{ props.item.motto }}</td>
                 <td class="text-xs-right">{{ props.item.description }}</td>
@@ -33,6 +33,7 @@
                     submit
                   </v-btn>
                   <v-btn @click="props.expanded = !props.expanded">close</v-btn>
+                  <v-btn @click="props.expanded = !props.expanded; update(true)" color="error">delete</v-btn>
                 </v-form>
               </v-card>
             </template>
@@ -128,20 +129,16 @@ export default {
       ],
       items: [],
       valid: true,
-      inPlaceModel: [],
-      newModel: [],
-      newTitle: '',
-      newMotto: '',
-      newDescription: ''
+      inPlaceModel: '',
+      newModel: {
+        title: '',
+        motto: '',
+        description: ''
+      }
     }
   },
   mounted() {
     this.getPosts()
-  },
-  watch: {
-    newModel: function(newVal) {
-      console.log(newVal)
-    }
   },
   methods: {
     async getPosts() {
@@ -149,22 +146,24 @@ export default {
       this.items = response.data
     },
     // Vuetify Template
-    async update() {
-      var response = await PostService.changePost(this.inPlaceModel)
+    async update(deleteFlag = false) {
+      console.log('inPlaceModel\n\n\n' + JSON.stringify(this.inPlaceModel))
+      var response = await PostService.changePost(this.inPlaceModel, deleteFlag)
       console.log(response)
       this.getPosts()
     },
     async newPost() {
-      // console.log("inPlaceModel" + this.inPlaceModel)
-      // console.log("newModel" + this.newModel)
+      this.genModel(this.newModel)
       var response = await PostService.addPost(this.newModel)
       console.log(response)
       this.getPosts()
     },
-    genModel(model) {
+    genIPModel(model) {
       // This, instead of deep cloning. Reference objects are linked!  Remember Intro Java!
       this.inPlaceModel = JSON.parse(JSON.stringify(model))
-      console.log(this.inPlaceModel)
+    },
+    genModel(model) {
+      this.newModel = JSON.parse(JSON.stringify(model))
     }
   }
 }

@@ -13,5 +13,30 @@
     "title": "Nike",
     "motto": "Just do it.",
     "description": "Shoe Company"
+  },
+  {
+    "title": "Apple",
+    "motto": "Think Different",
+    "description": "Computer Company"
+  },
+  {
+    "title": "Dollar Shave Club",
+    "motto": "Shave Time. Shave Money",
+    "description": "Shaving supply company"
+  },
+  {
+    "title": "Mastercard",
+    "motto": "There are some things money can't buy. For everything else, there's MasterCard.",
+    "description": "Credit Company"
+  },
+  {
+    "title": "De Beers",
+    "motto": "A Diamond is Forever",
+    "description": "Diamond Cartel"
+  },
+  {
+    "title": "Verizon Wireless",
+    "motto": "Can you hear me now? Good.",
+    "description": "Wireless carrier"
   }
 ]
