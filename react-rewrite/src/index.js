@@ -11,7 +11,7 @@ import './index.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 // Dark theme
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-// Theme gettersetter
+// Theme gettersettermajigger
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 // Hoping this works!
@@ -20,6 +20,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 const WrappedApp = () => {
   return (
     // MUI Wrapper
+    // Deciding not the theme it Deep Orange like MottoTrack, because I don't have the time to learn about it
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <App />
     </MuiThemeProvider>
