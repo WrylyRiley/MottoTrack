@@ -11,9 +11,11 @@ module.exports = {
   },
   env: {
     browser: true,
-    node: true
+    node: true,
+    jquery: true
   },
   rules: {
-    'no-console': 0
+    'no-console': 0,
+    'react/prop-types': 0
   }
 }
