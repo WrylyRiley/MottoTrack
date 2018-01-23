@@ -80,7 +80,7 @@ class Posts extends Component {
               return (
                 <TableEntry
                   key={index}
-                  id={item._id}
+                  _id={item._id}
                   title={item.title}
                   motto={item.motto}
                   description={item.description}

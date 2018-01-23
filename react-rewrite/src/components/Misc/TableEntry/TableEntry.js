@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+// import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 
 class TableEntry extends Component {
@@ -29,34 +29,42 @@ class TableEntry extends Component {
     // this.props.update(true)
   }
 
-  handleTextChange = e => {}
+  handleTextChange = e => {
+    this.setState({
+      [e.name]: [e.value]
+    })
+  }
 
   render = () => {
     const UpdateForm = (
-      <Dialog>
-        <TextField name={this.props.id} defaultValue={this.props.id} />
+      <Dialog open={this.state.open} modal={false}>
+        <TextField
+          name={this.props._id}
+          defaultValue={this.props._id}
+          onChange={e => this.handleTextChange(e)}
+        />
         <TextField name={this.props.title} defaultValue={this.props.title} />
         <TextField name={this.props.motto} defaultValue={this.props.motto} />
         <TextField
           name={this.props.description}
           defaultValue={this.props.description}
         />
-        <button onClick={handleUpdate} />
+        <button onClick={this.handleUpdate} />
       </Dialog>
     )
     return (
       <TableRow>
-        <TableRowColumn>{this.props.id}</TableRowColumn>
+        <TableRowColumn>{this.props._id}</TableRowColumn>
         <TableRowColumn>{this.props.title}</TableRowColumn>
         <TableRowColumn>{this.props.motto}</TableRowColumn>
         <TableRowColumn>{this.props.description}</TableRowColumn>
         <TableRowColumn>
           <button onClick={this.handleEdit}>Edit</button>
+          <UpdateForm />
         </TableRowColumn>
         <TableRowColumn>
           <button>Delete</button>
         </TableRowColumn>
-        <UpdateForm />
       </TableRow>
     )
   }
