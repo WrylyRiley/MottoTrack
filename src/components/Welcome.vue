@@ -14,7 +14,8 @@
           <v-card-title class="headline">Welcome to MottoTrack</v-card-title>
           <v-card-text>This app lets you CRUD company names, their mottos, and a short description into a remote database. Although not
             very robust, this app stands as testament to my personal challenge to learn Vue.js and deploy a working app in
-            the span of three days. The app is hosted on gh-pages, and the API is deployed to Heroku. Enjoy!
+            the span of three days. The app is hosted on gh-pages, and the API is deployed to Heroku. Click on any table
+            entry to reveal a dropdown form to edit. Add a new motto at the bottom. Enjoy!
           </v-card-text>
           <v-spacer></v-spacer>
           <v-card-text>Click my heart to begin!</v-card-text>
@@ -43,4 +44,5 @@
       this.dialog = true
     }
   }
+
 </script>

@@ -44,6 +44,11 @@
             <template slot="pageText" slot-scope="{ pageStart, pageStop }">
               From {{ pageStart }} to {{ pageStop }}
             </template>
+            <template slot="no-data">
+              <v-alert :value="true" color="info" icon="info">
+                Waking up the database, give me a second!
+              </v-alert>
+            </template>
           </v-data-table>
         </v-card>
         <!-- New Motto Template from Vuetify Docs -->
@@ -109,8 +114,7 @@
         tmp: '',
         search: '',
         pagination: {},
-        headers: [
-          {
+        headers: [{
             text: 'Company Name',
             align: 'left',
             sortable: true,
@@ -174,4 +178,5 @@
       }
     }
   }
+
 </script>
