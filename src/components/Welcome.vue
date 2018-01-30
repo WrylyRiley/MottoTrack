@@ -5,7 +5,7 @@
         <v-icon>home</v-icon>
       </v-btn>
       <v-toolbar-title>
-        <h3>MottoTracker</h3>
+        <h3>MottoTrack</h3>
       </v-toolbar-title>
     </v-toolbar>
     <v-layout row justify-space-between>

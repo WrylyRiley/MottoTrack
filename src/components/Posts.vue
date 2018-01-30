@@ -6,7 +6,7 @@
           <v-icon>home</v-icon>
         </v-btn>
         <v-toolbar-title>
-          <h3>MottoTracker</h3>
+          <h3>MottoTrack</h3>
         </v-toolbar-title>
       </v-toolbar>
       <v-content class="mx-5">
@@ -115,23 +115,23 @@
         search: '',
         pagination: {},
         headers: [{
-            text: 'Company Name',
-            align: 'left',
-            sortable: true,
-            value: 'title'
-          },
-          {
-            text: 'Motto',
-            align: 'left',
-            sortable: true,
-            value: 'motto'
-          },
-          {
-            text: 'Description',
-            align: 'left',
-            sortable: true,
-            value: 'description'
-          }
+          text: 'Company Name',
+          align: 'left',
+          sortable: true,
+          value: 'title'
+        },
+        {
+          text: 'Motto',
+          align: 'left',
+          sortable: true,
+          value: 'motto'
+        },
+        {
+          text: 'Description',
+          align: 'left',
+          sortable: true,
+          value: 'description'
+        }
         ],
         items: [],
         valid: true,
@@ -178,5 +178,4 @@
       }
     }
   }
-
 </script>
