@@ -44,5 +44,4 @@
       this.dialog = true
     }
   }
-
 </script>
